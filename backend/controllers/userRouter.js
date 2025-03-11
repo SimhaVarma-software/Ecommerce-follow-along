@@ -1,57 +1,57 @@
-const express = require('express');
-const userRouter = express.Router();
+const express =require("express");
+const bcrypt =require("bcryptjs")
 
-const userModel = require('../models/userModel');
+const userRouter=express.Router();
 
-const uploadUserImage = require('../middleware/multer');
+const uploadUSerImage=require("../middlewares/multer")
 
+const {userModel}=require("../models/userModel");
 
-userRouter.post('/signup', uploadUserImage.single("userImage"), async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
+userRouter.post("/signup",uploadUSerImage.single("image"),async(req,res)=>{
+    try{
+     const {name,email,password}=req.body;
+     if(name!="" || email!="" || password!=""){
+        return res.status(400).send({message:"All fields are required"});
+     }
 
-        if (!name || !email || !password) {
-            return res.status(400).send({ message: "All fields are required" });
-        }
+      const user=await userModel.findOne({email:email});
+      console.log(user);
+      if(user){
+        return res.status(200).send({message:"user already exist"});
+      }
 
-        const existingUser = await userModel.findOne({ email });
-        if (existingUser) {
-            return res.status(400).send({ message: "User already exists" });
-        }
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
+      
+      const newUser=await userModel.insertOne({name,email,password:hash});
 
-        const newUser = await userModel.create({ name, email, password });
-        return res.status(200).send({ message: "User registered successfully", user: newUser });
+      return res.status(200).send({message:"user register successfully"});
 
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send({ message: "Something went wrong" });
+    }catch(error){
+        return res.status(500).send({message:"Something went wrong"});
     }
-});
+})
 
 
-userRouter.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
+userModel.post("./login",async(req,res)=>{
+    try{
+      const {email,password}=req.body;
+      if(email!="" || password!=""){
+        return res.status(400).send({message:"All fields are required"});
+     }
 
-        if (!email || !password) {
-            return res.status(400).send({ message: "All fields are required" });
-        }
 
-        const user = await userModel.findOne({ email });
-        if (!user) {
-            return res.status(400).send({ message: "User does not exist" });
-        }
-
-        if (user.password !== password) {
-            return res.status(400).send({ message: "Invalid password" });
-        }
-
-        return res.status(200).send({ message: "User logged in successfully", user });
-
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send({ message: "Something went wrong" });
+      const user=await userModel.findOne({email});
+      const matchedPass= bcrypt.compareSync(password, hash); // true
+      if(user && matchedPass){
+        return res.status(200).send({message:"user logged successfully"});
+      }
+      return res.status(401).send({message:"Entered details are wrong"});
+      
+    }catch(error){
+       return res.status(500).send({message:"something went wrong"});
     }
-});
+})
 
-module.exports = userRouter;
+
+module.exports=userRouter;
