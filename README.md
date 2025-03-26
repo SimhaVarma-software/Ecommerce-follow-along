@@ -45,3 +45,12 @@ During this session, we covered the basics of setting up a project repository an
 ## Milestone 5:user Registration & file handling
 *created the "signup page" in react and added code for signup backend also.
 *Added the "Signup page" validation in (signup,login).
+
+## Milestone 6: Password Hashing By Using Bcryptjs**
+*added the **password encryption** is backend signup page.
+*added comparision for checking password is correct or not in login backend.
+
+# Milestone 13
+
+   - created *product update endpoint* for updating products.
+   - created from for updating data in frontend and created autofill function.
