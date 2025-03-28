@@ -1,22 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Login from './components/Login'
-import signup from './components/signup'
-import products from './components/products'
+import React, { useEffect, useState } from 'react'
+import axios from "axios";
+import Card from './Card';
+import styles from "./products.module.css";
+const Products = () => {
+    const [products,setProducts] = useState([]);
+    function getData(){
+        axios.get("https://fakestoreapi.com/products")
+        .then((data)=>{
+            console.log(data);
+            setProducts(data.data);
+        }).catch((err)=>{
+            console.log(console.error(err));
+        })
+    }
 
 
-function App() {
-  const [count, setCount] = useState(0)
+    useEffect(()=>{
+        getData();
+    },[])
 
   return (
     <>
-      <products/>
-      <Login/>
-      <signup/>
+        <h1>Products</h1>
+        <div className={styles.products}>
+        {
+            products.map((ele)=>{
+                return <Card key={ele.id} product={ele}/>
+            })
+        }
+    </div>
     </>
   )
 }
 
-export default App
+export default Products

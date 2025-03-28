@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from "./card.module.css";
-const card = ({Products}) => {
+const Card = ({product}) => {
   return (
-    <div className={Styles.css}
-    ><img className={styles.productImg}src={product.image} alt={product.title} />
-    <h3>{product.title}</h3>
-    <p>${product.price}</p>
+    <div className={styles.card}>
+        <img className={styles.productImg} src={product.image} alt={product.title} />
+        <h3>{product.title}</h3>
+        <p>${product.price}</p>
     </div>
   )
 }
 
-export default card
+export default Card

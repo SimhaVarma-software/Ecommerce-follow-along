@@ -1,20 +1,21 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Login from './components/Login'
-import signup from './components/signup'
-import products from './components/products'
-
+import Signup from './components/Signup'
+import Products from './components/Products'
+import { BrowserRouter } from 'react-router-dom'
+import AllRouting from './AllRouting'
+import Navbar from './components/Navbar'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <products/>
-      <Login/>
-      <signup/>
+    <BrowserRouter>
+      <Navbar/>
+      <AllRouting/>
+    </BrowserRouter>
+
     </>
   )
 }
