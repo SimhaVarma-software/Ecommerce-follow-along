@@ -98,3 +98,7 @@ Created **Navigation Bar** for Navigating pages
 - Quantity Selector: Included an input for selecting quantity.  
 - Add to Cart: Implemented functionality to add selected quantity to the cart.  
 - Submission: Code pushed to a public GitHub repository with an updated README.
+
+### **  Milestone 20: Backend endpoint for userDetails**
+Created endpoint for userDetails in backend
+Created User.jsx for userDetails in frontend.
