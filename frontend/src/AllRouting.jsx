@@ -16,3 +16,13 @@ const AllRouting = () => {
 }
 
 export default AllRouting
+// Compare this snippet from Ecommerce-follow-along/frontend/src/components/signup.jsx;
+// import React, { useState,useEffect}
+// import styles from "./signup.module.css";
+// import axios from 'axios';
+// const Signup = () => {
+  //const[signupData,setSignupData] = useState({
+  //     name:"",})}
+  //email:"",
+  //   password:"",
+  //  phone:"",

@@ -98,3 +98,11 @@ Created **Navigation Bar** for Navigating pages
 - Quantity Selector: Included an input for selecting quantity.  
 - Add to Cart: Implemented functionality to add selected quantity to the cart.  
 - Submission: Code pushed to a public GitHub repository with an updated README.
+
+## Milestone 17: CRUD for cart**
+Create endpoints in backend 
+
+## Milestone 21: Created frontend for Address**
+✅ Created route for Add Address Page in Frontend.
+✅create form for adding address.
+✅stored address using useState Hook.

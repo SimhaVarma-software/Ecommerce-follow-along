@@ -37,3 +37,14 @@ const Navbar = () => {
 }
 
 export default Navbar
+// Compare this snippet from Ecommerce-follow-along/frontend/src/components/singup.jsx:
+// // const Signup = () => {
+    // const [signupData,setSignupData] = useState({
+    //   name:""})
+    // email:"",
+    // password:"",
+    // phone:"",
+    // });
+    // const [error,setError] = useState("");
+    // const [success,setSuccess]
+    
