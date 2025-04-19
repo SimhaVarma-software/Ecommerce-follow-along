@@ -106,3 +106,8 @@ Create endpoints in backend
 ✅ Created route for Add Address Page in Frontend.
 ✅create form for adding address.
 ✅stored address using useState Hook.
+
+## ** Milestone 22: Created Backend for Address and attached with frontend**
+✅ created backend endpoint for handling address.
+✅ added backend endpoint with frontend.
+
