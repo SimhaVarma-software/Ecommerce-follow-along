@@ -72,6 +72,7 @@ app.listen(PORT,async ()=>{
        console.log("Connected sucessfully");
     } catch (error) {
         console.log("Something went wrong not able to connect to server",error);
+        
     }
 });
 
