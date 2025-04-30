@@ -121,3 +121,8 @@ Create endpoints in backend
 ✅ Displayed All address in address selection page.
 ✅ Displayed total price in cart.
 ✅ Added place order button at the bottom.
+
+### **🛠 Milestone 25 worked on order backend and email service
+✅ created enpoint for order.
+✅ implemented mail service from nodemailer.
+✅ handled address for the delivery.
