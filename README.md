@@ -126,3 +126,7 @@ Create endpoints in backend
 ✅ created enpoint for order.
 ✅ implemented mail service from nodemailer.
 ✅ handled address for the delivery.
+
+### **🛠 Milestone 26 worked on order backend and email service
+✅ Implemented mail with nodemailer.
+✅ Sending order details to user via mail.
