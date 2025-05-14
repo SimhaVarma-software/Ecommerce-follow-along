@@ -53,33 +53,37 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 // Login Route
-userRouter.put("/updateAddress/:id",async(req,res)=>{
+userRouter.post("/login", async (req, res) => {
     try {
-        const {country,city,address1,address2,zipCode} = req.body;
-
-        if(!country || !city || !address1 || !address2 || !zipCode){
-            return res.status(400).send({
-                message:"All fields are required",
-            });
+        console.log("email,password")
+        const { email, password } = req.body;
+        
+        if (!email || !password) {
+            return res.status(400).json({ message: "All details are required" });
         }
 
-        if(!id){
-            return res.status(400).send({
-                message:"please login",
-            });
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const updatedUserAddress = await userModel.findByIdAndUpdate({_id:id},{...req.body});
-        if(!updatedUserAddress){
-            return res.status(400).send({
-                message:"User Not Found",
-            });
+        
+        const matchedPass = bcrypt.compareSync(password, user.password);
+
+        if (matchedPass) {
+            const token = jwt.sign({ name:user.name,email:user.email,id:user.id }, process.env.JWT_PASSWORD);
+            return res.status(200).json({ message: "User logged in successfully",token,name:user.name,id:user.id,userImage:user.image});
+        } else {
+            return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        return res.status(200).send({message:"user updated sucessfully"});
-
+        
     } catch (error) {
-        console.error("address error:", error);
-        return res.status(500).json({ error: "Internal Server Error" }); 
+        console.error("Login Error:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-})
+});
+
+
+module.exports = userRouter;

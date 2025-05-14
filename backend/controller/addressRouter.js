@@ -1,69 +1,63 @@
 const express = require("express");
-const router = express.Router();
+
+const addressRouter = express.Router();
+
 const addressModel = require("../models/addressSchema");
 
-// Get all addresses
-router.get("/", async (req, res) => {
+// Fetch all addresses for the logged-in user
+addressRouter.get("/", async (req, res) => {
     try {
-        const addresses = await addressModel.find();
-        res.status(200).json(addresses);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// Get a specific address by ID
-router.get("/:id", async (req, res) => {
-    try {
-        const address = await addressModel.findById(req.params.id);
-        if (!address) {
-            return res.status(404).json({ message: "Address not found" });
+        if (!req.userId) {
+            return res.status(401).send({ message: "Unauthorized access" });
         }
-        res.status(200).json(address);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
 
-// Create a new address
-router.post("/", async (req, res) => {
-    const address = new addressModel(req.body);
-    try {
-        const newAddress = await address.save();
-        res.status(201).json(newAddress);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
-
-// Update an address by ID
-router.put("/:id", async (req, res) => {
-    try {
-        const updatedAddress = await addressModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        if (!updatedAddress) {
-            return res.status(404).json({ message: "Address not found" });
+        const addresses = await addressModel.find({ userId: req.userId });
+        if (addresses.length === 0) {
+            return res.status(404).send({ message: "No addresses found" });
         }
-        res.status(200).json(updatedAddress);
+
+        res.status(200).send({ message: "Addresses fetched successfully", addresses });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        console.error("Error fetching addresses:", error);
+        return res.status(500).send({ message: "Something went wrong", error: error.message });
     }
 });
 
-// Delete an address by ID
-router.delete("/:id", async (req, res) => {
+// Add a new address for the logged-in user
+addressRouter.post("/", async (req, res) => {
     try {
-        const deletedAddress = await addressModel.findByIdAndDelete(req.params.id);
-        if (!deletedAddress) {
-            return res.status(404).json({ message: "Address not found" });
+        const { country, city, address1, address2, zipCode } = req.body;
+
+        // Validate required fields
+        if (!country || !city || !address1 || !address2 || !zipCode) {
+            return res.status(400).send({ message: "All fields are required" });
         }
-        res.status(200).json({ message: "Address deleted successfully" });
+
+        // Validate ZIP Code length
+        if (zipCode.length !== 6 || isNaN(zipCode)) {
+            return res.status(400).send({ message: "ZIP Code must be a 6-digit number" });
+        }
+
+        if (!req.userId) {
+            return res.status(401).send({ message: "Unauthorized access" });
+        }
+
+        // Save the address
+        const newAddress = new addressModel({
+            country,
+            city,
+            address1,
+            address2,
+            zipCode,
+            userId: req.userId,
+        });
+
+        await newAddress.save();
+        return res.status(201).send({ message: "Address added successfully" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Error adding address:", error);
+        return res.status(500).send({ message: "Something went wrong", error: error.message });
     }
 });
 
-module.exports = router;
+module.exports = addressRouter;
