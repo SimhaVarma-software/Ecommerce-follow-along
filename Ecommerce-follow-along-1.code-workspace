@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../ecommerce-abhi/Ecommerce-Follow-Along/backend"
+		},
+		{
+			"path": "../../ecommerce-abhi/Ecommerce-Follow-Along/frontend"
+		}
+	],
+	"settings": {}
+}
