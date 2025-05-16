@@ -26,7 +26,7 @@ const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 
 console.log(MONGO_PASSWORD)
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 
 const useRouter = require("./controller/userRouter");
 
@@ -156,6 +156,10 @@ app.use("/cart",
 app.use("/allproducts",allProductRouter);
 
 app.use("/uploads",express.static(path.join(__dirname,"uploads")));
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 app.listen(8080,async ()=>{
     try {
